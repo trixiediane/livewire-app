@@ -1,5 +1,8 @@
 <?php
 
+use App\Livewire\Auth\Login;
+use App\Livewire\Auth\Register;
+use App\Livewire\Pages\Dashboard;
 use App\Livewire\Welcome;
 use Illuminate\Support\Facades\Route;
 
@@ -14,4 +17,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', Welcome::class);
+Route::get('/', Dashboard::class);
+
+Route::get('/register', Register::class);
+Route::get('/login', Login::class);
+
+Route::get('/logout', function () {
+    auth()->logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+
+    return redirect('/login');
+});
