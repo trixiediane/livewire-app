@@ -22,6 +22,8 @@ class Post extends Component
     public $updateContent = '';
     public bool $updatePostModal = false;
     public $postToUpdate;
+    public bool $deleteModal = false;
+    public $postToDelete;
 
     public function render()
     {
@@ -29,14 +31,6 @@ class Post extends Component
         return view('livewire.pages.post', [
             'posts' => ModelsPost::where('user_id', $user->id)->paginate(3)
         ]);
-    }
-    // Method to open the modal and set the post data
-    public function editPostModal($postId)
-    {
-        $this->postToUpdate = ModelsPost::findOrFail($postId); // Replace with your logic to fetch the post
-        $this->updateTitle = $this->postToUpdate->title;
-        $this->updateContent = $this->postToUpdate->content;
-        $this->updatePostModal = true;
     }
 
     public function save()
@@ -60,6 +54,22 @@ class Post extends Component
         );
     }
 
+    // Method to open the modal and set the post data
+    public function editPostModal($postId)
+    {
+        $this->postToUpdate = ModelsPost::findOrFail($postId); // Replace with your logic to fetch the post
+        $this->updateTitle = $this->postToUpdate->title;
+        $this->updateContent = $this->postToUpdate->content;
+        $this->updatePostModal = true;
+    }
+
+    public function deletePostModal($postId)
+    {
+        $this->postToDelete = ModelsPost::findOrFail($postId);
+        $this->updateTitle = $this->postToDelete->title;
+        $this->updateContent = $this->postToDelete->content;
+        $this->deleteModal = true;
+    }
 
     // Method to update the post
     public function updatePost()
@@ -79,6 +89,19 @@ class Post extends Component
         $this->info(
             // 'Success!',
             title: 'Successfully updated!',
+            description: 'Thank you!'
+        );
+    }
+    // Method to update the post
+    public function deletePost()
+    {
+        $this->postToDelete->delete();
+
+        $this->deleteModal = false;
+
+        $this->error(
+            // 'Success!',
+            title: 'Successfully deleted!',
             description: 'Thank you!'
         );
     }

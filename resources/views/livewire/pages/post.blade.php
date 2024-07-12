@@ -36,7 +36,7 @@
         <x-button icon="o-pencil" wire:click="editPostModal({{ $post->id }})" spinner class="btn-sm" />
 
         {{-- Delete button --}}
-        <x-button icon="o-trash" wire:click="delete({{ $post->id }})" spinner class="btn-sm" />
+        <x-button icon="o-trash" wire:click="deletePostModal({{ $post->id }})" spinner class="btn-sm" />
     @endscope
 </x-table>
 
@@ -50,6 +50,16 @@
     <x-slot name="actions">
         <x-button label="Cancel" @click="$wire.updatePostModal = false" />
         <x-button label="Update" class="btn-primary" wire:click="updatePost" />
+    </x-slot>
+</x-modal>
+
+
+<x-modal wire:model="deleteModal" title="Edit Post" subtitle="Delete this post..." separator>
+    <x-header title="{{$updateTitle}}" subtitle="{{$updateContent}}" size="text-xl" />
+
+    <x-slot name="actions">
+        <x-button label="Cancel" @click="$wire.deleteModal = false" />
+        <x-button label="Delete" class="btn-primary" wire:click="deletePost" />
     </x-slot>
 </x-modal>
 
